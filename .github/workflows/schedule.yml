@@ -1,0 +1,14 @@
+name: Scheduled Report
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # daily at UTC midnight
+  workflow_dispatch: {}
+
+jobs:
+  send_report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call report endpoint
+        run: |
+          curl -sS -X POST "${{ secrets.SITE_URL }}/api/send-report" -H "x-report-secret: ${{ secrets.REPORT_SECRET }}"
